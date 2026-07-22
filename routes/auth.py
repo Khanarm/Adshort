@@ -5,19 +5,37 @@ import bcrypt
 auth_bp = Blueprint("auth", __name__)
 
 
+# ==========================
+# Login
+# ==========================
 @auth_bp.route("/login", methods=["GET", "POST"])
 def login():
 
     if request.method == "POST":
 
-        # Future:
-        # Login Logic
+        email = request.form.get("email")
+        password = request.form.get("password")
 
-        pass
+        user = users.find_one({"email": email})
+
+        if user and bcrypt.checkpw(
+            password.encode(),
+            user["password"].encode()
+        ):
+
+            session["user_id"] = str(user["_id"])
+            session["username"] = user["username"]
+
+            return redirect("/dashboard")
+
+        return "Invalid Email or Password"
 
     return render_template("login.html")
 
 
+# ==========================
+# Register
+# ==========================
 @auth_bp.route("/register", methods=["GET", "POST"])
 def register():
 
@@ -27,17 +45,14 @@ def register():
         email = request.form.get("email")
         password = request.form.get("password")
 
-        # Check Email
         if users.find_one({"email": email}):
-            return "Email already exists."
+            return "Email already exists"
 
-        # Hash Password
         hashed_password = bcrypt.hashpw(
             password.encode(),
             bcrypt.gensalt()
         ).decode()
 
-        # Save User
         users.insert_one({
             "username": username,
             "email": email,
@@ -47,3 +62,14 @@ def register():
         return redirect("/login")
 
     return render_template("register.html")
+
+
+# ==========================
+# Logout
+# ==========================
+@auth_bp.route("/logout")
+def logout():
+
+    session.clear()
+
+    return redirect("/login")
