@@ -1,6 +1,24 @@
 from flask import Blueprint, render_template, request, session, redirect
+from models.links import links
+import random
+import string
 
 generate_bp = Blueprint("generate", __name__)
+
+
+def generate_code(length=6):
+
+    chars = string.ascii_letters + string.digits
+
+    while True:
+
+        code = "".join(
+            random.choice(chars)
+            for _ in range(length)
+        )
+
+        if not links.find_one({"code": code}):
+            return code
 
 
 @generate_bp.route("/generate", methods=["GET", "POST"])
@@ -13,14 +31,37 @@ def generate():
 
     if request.method == "POST":
 
-        # Future
-        # Platform
-        # Platform Name
-        # Destination URL
-        # Short Link Generate
-        # MongoDB Save
+        platform = request.form.get("platform")
+        platform_name = request.form.get("platform_name")
+        destination_url = request.form.get("destination_url")
 
-        pass
+        code = generate_code()
+
+        links.insert_one({
+
+            "user_id": session["user_id"],
+
+            "code": code,
+
+            "plan": int(plan),
+
+            "platform": platform,
+
+            "platform_name": platform_name,
+
+            "destination_url": destination_url,
+
+            "clicks": 0,
+
+            "visitors": 0,
+
+            "earnings": 0,
+
+            "created_at": None
+
+        })
+
+        return redirect("/dashboard")
 
     return render_template(
         "generate.html",
