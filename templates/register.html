@@ -23,33 +23,41 @@
                     🔓 Unlock 2 Earn
                 </h3>
 
-                <form>
+                <!-- Register Form -->
+                <form method="POST">
 
                     <div class="mb-3">
                         <label>Username</label>
                         <input
                             type="text"
+                            name="username"
                             class="form-control"
-                            placeholder="Enter Username">
+                            placeholder="Enter Username"
+                            required>
                     </div>
 
                     <div class="mb-3">
                         <label>Email</label>
                         <input
                             type="email"
+                            name="email"
                             class="form-control"
-                            placeholder="Enter Email">
+                            placeholder="Enter Email"
+                            required>
                     </div>
 
                     <div class="mb-3">
                         <label>Password</label>
                         <input
                             type="password"
+                            name="password"
                             class="form-control"
-                            placeholder="Enter Password">
+                            placeholder="Enter Password"
+                            required>
                     </div>
 
                     <button
+                        type="submit"
                         class="btn btn-success w-100">
                         Create Account
                     </button>
@@ -60,9 +68,7 @@
 
                 <p class="text-center">
                     Already have an account?
-                    <a href="/login">
-                        Login
-                    </a>
+                    <a href="/login">Login</a>
                 </p>
 
             </div>
