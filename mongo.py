@@ -3,4 +3,4 @@ from config import Config
 
 client = MongoClient(Config.MONGO_URI)
 
-db = client["unlockhub"]
+db = client["unlock2earn"]
