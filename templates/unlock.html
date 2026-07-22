@@ -182,5 +182,80 @@ Join Movie Hub
 
 </div>
 
+<script>
+
+let currentStep = 1;
+const totalSteps = 5;
+
+function unlockNext() {
+
+    const currentBtn = document.getElementById("btn" + currentStep);
+
+    currentBtn.innerHTML = "⏳ Verifying...";
+    currentBtn.disabled = true;
+
+    setTimeout(() => {
+
+        currentBtn.className = "watch-btn complete-btn";
+        currentBtn.innerHTML = "✅ Completed";
+
+        currentStep++;
+
+        document.getElementById("step").innerHTML = currentStep <= totalSteps ? currentStep : totalSteps;
+
+        let percent = (currentStep - 1) / totalSteps * 100;
+
+        document.getElementById("progressBar").style.width = percent + "%";
+
+        if (currentStep <= totalSteps) {
+
+            const nextBtn = document.getElementById("btn" + currentStep);
+
+            nextBtn.disabled = false;
+            nextBtn.className = "watch-btn active-btn";
+            nextBtn.innerHTML = "▶ WATCH NOW";
+
+        } else {
+
+            document.getElementById("finalButton").style.display = "block";
+
+        }
+
+    }, 10000);
+
+}
+
+for(let i=1;i<=totalSteps;i++){
+
+    const btn=document.getElementById("btn"+i);
+
+    btn.onclick=function(){
+
+        if(i===currentStep){
+
+            // Future:
+            // Open SmartLink here
+            // window.open(smartLink,"_blank");
+
+            unlockNext();
+
+        }
+
+    }
+
+}
+
+document.getElementById("finalButton").onclick=function(){
+
+    // Future:
+    // window.location = destinationURL;
+
+    alert("Destination URL Open");
+
+}
+
+</script>
+
+</body>    
 </body>
 </html>
