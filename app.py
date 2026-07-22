@@ -3,12 +3,14 @@ from config import Config
 
 # Blueprints
 from routes.auth import auth_bp
+from routes.dashboard import dashboard_bp
 
 app = Flask(__name__)
 app.config.from_object(Config)
 
 # Register Blueprints
 app.register_blueprint(auth_bp)
+app.register_blueprint(dashboard_bp)
 
 
 @app.route("/")
