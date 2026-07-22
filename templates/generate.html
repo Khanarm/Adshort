@@ -23,37 +23,44 @@
         <strong>{{ plan }} Ads</strong>
     </div>
 
-    <form>
+    <form method="POST">
 
         <!-- Platform -->
         <div class="mb-3">
+
             <label class="form-label">
                 Select Platform
             </label>
 
-            <select class="form-select">
+            <select
+                class="form-select"
+                name="platform"
+                required>
 
-                <option>Telegram</option>
+                <option value="">Select Platform</option>
 
-                <option>YouTube</option>
+                <option value="telegram">Telegram</option>
 
-                <option>WhatsApp</option>
+                <option value="youtube">YouTube</option>
 
-                <option>Instagram</option>
+                <option value="whatsapp">WhatsApp</option>
 
-                <option>Facebook</option>
+                <option value="instagram">Instagram</option>
 
-                <option>Discord</option>
+                <option value="facebook">Facebook</option>
 
-                <option>Website</option>
+                <option value="discord">Discord</option>
 
-                <option>Other</option>
+                <option value="website">Website</option>
+
+                <option value="other">Other</option>
 
             </select>
 
         </div>
 
         <!-- Platform Name -->
+
         <div class="mb-3">
 
             <label class="form-label">
@@ -62,8 +69,10 @@
 
             <input
                 type="text"
+                name="platform_name"
                 class="form-control"
-                placeholder="Join Movie Hub">
+                placeholder="Join Movie Hub"
+                required>
 
         </div>
 
@@ -77,12 +86,15 @@
 
             <input
                 type="url"
+                name="destination_url"
                 class="form-control"
-                placeholder="https://">
+                placeholder="https://example.com"
+                required>
 
         </div>
 
         <button
+            type="submit"
             class="btn btn-success w-100">
 
             Generate Link
@@ -95,4 +107,4 @@
 
 </body>
 
-</html>
+    </html>
