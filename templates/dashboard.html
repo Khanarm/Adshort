@@ -113,3 +113,142 @@ Logout
 </div>
 
 <div class="container py-4">
+
+ <!-- Main Dashboard Content -->
+
+<div class="container">
+
+    <div class="row g-4">
+
+        <!-- Link Analytics -->
+        <div class="col-md-6">
+            <div class="card bg-dark text-white shadow">
+                <div class="card-body">
+                    <h5 class="card-title">Link Analytics</h5>
+
+                    <div class="d-flex justify-content-between mt-3">
+                        <span>Total Links</span>
+                        <strong>{{ total_links }}</strong>
+                    </div>
+
+                    <div class="d-flex justify-content-between mt-2">
+                        <span>Total Clicks</span>
+                        <strong>{{ total_clicks }}</strong>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Quick Actions -->
+        <div class="col-md-6">
+            <div class="card bg-dark text-white shadow">
+                <div class="card-body">
+
+                    <h5 class="card-title">Quick Actions</h5>
+
+                    <a href="/generate" class="btn btn-primary w-100 mt-3">
+                        Generate New Link
+                    </a>
+
+                    <a href="/links" class="btn btn-outline-light w-100 mt-2">
+                        View All Links
+                    </a>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+    <!-- Recent Links -->
+
+    <div class="card bg-dark text-white shadow mt-4">
+
+        <div class="card-body">
+
+            <h5 class="card-title">
+                Recent Links
+            </h5>
+
+
+            <div class="table-responsive mt-3">
+
+                <table class="table table-dark table-hover">
+
+                    <thead>
+                        <tr>
+                            <th>Short Link</th>
+                            <th>Clicks</th>
+                            <th>Date</th>
+                        </tr>
+                    </thead>
+
+
+                    <tbody>
+
+                    {% for link in links %}
+
+                        <tr>
+
+                            <td>
+                                <a href="/{{ link.short_code }}" target="_blank">
+                                    {{ request.host }}/{{ link.short_code }}
+                                </a>
+                            </td>
+
+                            <td>
+                                {{ link.clicks }}
+                            </td>
+
+                            <td>
+                                {{ link.created_at }}
+                            </td>
+
+                        </tr>
+
+                    {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+</div>
+
+<div class="sidebar">
+
+    <div class="logo">
+        Unlock 2 Earn
+    </div>
+
+
+    <a href="/dashboard">
+        📊 Dashboard
+    </a>
+
+
+    <a href="/profile">
+        👤 Profile
+    </a>
+
+
+    <a href="/settings">
+        ⚙ Settings
+    </a>
+
+
+    <a href="/logout">
+        🚪 Logout
+    </a>
+
+
+</div>
