@@ -1,148 +1,132 @@
-/* Welcome Card */
+/* ===========================
+   Unlock 2 Earn Dashboard
+=========================== */
 
-.welcome{
-    background:linear-gradient(135deg,#3b82f6,#9333ea);
-    border-radius:18px;
-    padding:22px;
-    box-shadow:0 8px 25px rgba(0,0,0,.35);
+body{
+    background:#0f172a;
+    color:#fff;
+    font-family:Arial, Helvetica, sans-serif;
+    padding-bottom:30px;
+}
+
+/* Navbar */
+
+.navbar{
+    background:#111827 !important;
 }
 
 /* Cards */
 
-.card-box{
-    background:rgba(255,255,255,.08);
-    backdrop-filter:blur(15px);
-    color:white;
-    border:1px solid rgba(255,255,255,.15);
-    transition:.3s;
+.card{
+    background:#1f2937 !important;
+    color:#fff;
+    border:none;
+    border-radius:18px;
+    box-shadow:0 8px 20px rgba(0,0,0,.35);
 }
 
-.card-box:hover{
-    transform:translateY(-5px);
+.card-title{
+    font-size:28px;
+    font-weight:700;
+    margin-bottom:20px;
+}
+
+/* Welcome Card */
+
+.welcome{
+    background:linear-gradient(135deg,#2563eb,#7c3aed);
+    border-radius:18px;
+    padding:22px;
 }
 
 /* Buttons */
 
-.action-btn{
+.btn{
+    border-radius:10px;
+    font-weight:600;
+}
+
+.btn-primary{
+    background:#2563eb;
+    border:none;
+}
+
+.btn-primary:hover{
+    background:#1d4ed8;
+}
+
+.btn-outline-light:hover{
+    color:#111827;
+}
+
+/* Sidebar Menu */
+
+.menu-item{
+    display:block;
+    padding:12px 15px;
+    margin-bottom:10px;
+    border-radius:10px;
+    color:#fff;
+    text-decoration:none;
     transition:.3s;
-    font-weight:bold;
 }
 
-.action-btn:hover{
-    transform:scale(1.02);
+.menu-item:hover{
+    background:#374151;
+    color:#fff;
 }
 
-/* Bottom Navigation */
-
-.bottom-nav{
-
-position:fixed;
-
-bottom:0;
-
-left:0;
-
-right:0;
-
-height:65px;
-
-background:#111827;
-
-display:flex;
-
-justify-content:space-around;
-
-align-items:center;
-
-box-shadow:0 -5px 15px rgba(0,0,0,.4);
-
-z-index:999;
-
+.offcanvas{
+    width:280px;
 }
 
-.bottom-nav a{
+/* Table */
 
-color:white;
-
-text-decoration:none;
-
-display:flex;
-
-flex-direction:column;
-
-align-items:center;
-
-font-size:13px;
-
+.table{
+    margin-bottom:0;
 }
 
-.bottom-nav i{
-
-font-size:24px;
-
-margin-bottom:3px;
-
+.table a{
+    color:#38bdf8;
+    text-decoration:none;
 }
+
+.table a:hover{
+    text-decoration:underline;
+}
+
+/* Analytics */
+
+.d-flex strong{
+    font-size:18px;
+    color:#38bdf8;
+}
+
+/* Container */
 
 .container{
-
-padding-bottom:90px;
-
+    padding-top:20px;
+    padding-bottom:20px;
 }
 
-body {
-    background: #0f172a;
-    color: white;
+/* Mobile */
+
+@media(max-width:768px){
+
+.card-title{
+    font-size:22px;
 }
 
-
-/* Sidebar */
-
-.sidebar {
-    width: 250px;
-    min-height: 100vh;
-    background: #111827;
-    position: fixed;
-    left: 0;
-    top: 0;
-    padding: 25px 15px;
+.navbar h4{
+    font-size:24px;
 }
 
-
-.logo {
-    font-size: 22px;
-    font-weight: bold;
-    text-align: center;
-    margin-bottom: 40px;
-    color: #38bdf8;
+.btn{
+    font-size:16px;
 }
 
-
-.sidebar a {
-    display: block;
-    padding: 12px 15px;
-    margin-bottom: 10px;
-    color: #cbd5e1;
-    text-decoration: none;
-    border-radius: 8px;
+.table{
+    font-size:14px;
 }
 
-
-.sidebar a:hover {
-    background: #1e293b;
-    color: white;
 }
-
-
-/* Dashboard content */
-
-.main-content {
-    margin-left: 270px;
-    padding: 20px;
-}
-
-
-.card {
-    border: none;
-    border-radius: 15px;
-    }
