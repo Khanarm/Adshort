@@ -1,1 +1,91 @@
+/* Welcome Card */
 
+.welcome{
+    background:linear-gradient(135deg,#3b82f6,#9333ea);
+    border-radius:18px;
+    padding:22px;
+    box-shadow:0 8px 25px rgba(0,0,0,.35);
+}
+
+/* Cards */
+
+.card-box{
+    background:rgba(255,255,255,.08);
+    backdrop-filter:blur(15px);
+    color:white;
+    border:1px solid rgba(255,255,255,.15);
+    transition:.3s;
+}
+
+.card-box:hover{
+    transform:translateY(-5px);
+}
+
+/* Buttons */
+
+.action-btn{
+    transition:.3s;
+    font-weight:bold;
+}
+
+.action-btn:hover{
+    transform:scale(1.02);
+}
+
+/* Bottom Navigation */
+
+.bottom-nav{
+
+position:fixed;
+
+bottom:0;
+
+left:0;
+
+right:0;
+
+height:65px;
+
+background:#111827;
+
+display:flex;
+
+justify-content:space-around;
+
+align-items:center;
+
+box-shadow:0 -5px 15px rgba(0,0,0,.4);
+
+z-index:999;
+
+}
+
+.bottom-nav a{
+
+color:white;
+
+text-decoration:none;
+
+display:flex;
+
+flex-direction:column;
+
+align-items:center;
+
+font-size:13px;
+
+}
+
+.bottom-nav i{
+
+font-size:24px;
+
+margin-bottom:3px;
+
+}
+
+.container{
+
+padding-bottom:90px;
+
+}
