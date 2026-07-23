@@ -1,76 +1,96 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard - Unlock 2 Earn</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<title>Dashboard</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+
+<style>
+body{
+    background:#1f2229;
+    color:white;
+}
+
+/* Navbar */
+.navbar{
+    background:#111827;
+}
+
+.navbar-brand{
+    color:#fff;
+    font-weight:bold;
+    font-size:22px;
+}
+
+/* Sidebar */
+.offcanvas{
+    background:#181c24;
+    color:white;
+}
+
+.offcanvas a{
+    color:white;
+    text-decoration:none;
+    display:block;
+    padding:14px;
+    border-radius:10px;
+    margin-bottom:8px;
+}
+
+.offcanvas a:hover{
+    background:#2a2f3b;
+}
+
+/* Welcome */
+.welcome{
+    background:#2d3748;
+    border-radius:15px;
+    padding:20px;
+}
+
+/* Cards */
+.card-box{
+    background:white;
+    color:black;
+    border-radius:15px;
+    text-align:center;
+    padding:25px;
+    font-weight:bold;
+}
+
+.action-btn{
+    width:100%;
+    border-radius:12px;
+    font-size:20px;
+    margin-top:15px;
+    padding:14px;
+}
+</style>
+
 </head>
 
-<body class="bg-dark text-white">
+<body>
 
-<div class="container py-4">
+<!-- Navbar -->
+<nav class="navbar navbar-dark px-3">
 
-    <h3 class="text-center mb-4">
-        🔓 Unlock 2 Earn
-    </h3>
+<button class="btn btn-dark"
+data-bs-toggle="offcanvas"
+data-bs-target="#menu">
+<i class="bi bi-list fs-3"></i>
+</button>
 
-    <div class="card bg-secondary text-white mb-3">
-        <div class="card-body">
-            <h5>👋 Welcome</h5>
-            <p class="mb-0">{{ username }}</p>
-        </div>
-    </div>
+<span class="navbar-brand">
+🔓 Unlock 2 Earn
+</span>
 
-    <div class="row">
+<i class="bi bi-bell-fill fs-4 text-warning"></i>
 
-        <div class="col-6 mb-3">
-            <div class="card text-center">
-                <div class="card-body">
-                    <h3>0</h3>
-                    <small>Total Links</small>
-                </div>
-            </div>
-        </div>
+</nav>
 
-        <div class="col-6 mb-3">
-            <div class="card text-center">
-                <div class="card-body">
-                    <h3>0</h3>
-                    <small>Total Clicks</small>
-                </div>
-            </div>
-        </div>
-
-    </div>
-
-    <div class="d-grid gap-3">
-
-        <a href="/plans" class="btn btn-primary">
-            ➕ Generate Link
-        </a>
-
-        <a href="#" class="btn btn-success">
-            🔗 My Links
-        </a>
-
-        <a href="/analytics" class="btn btn-warning">
-            📊 Analytics
-        </a>
-
-        <a href="/profile" class="btn btn-info">
-            👤 Profile
-        </a>
-
-        <a href="/logout" class="btn btn-danger">
-            🚪 Logout
-        </a>
-
-    </div>
-
-</div>
-
-</body>
-</html>
+<!-- Sidebar -->
+<div class="offcanvas offcanvas-start" id="menu">
