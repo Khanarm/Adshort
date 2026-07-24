@@ -28,13 +28,16 @@ def generate():
     if "user_id" not in session:
         return redirect("/login")
 
-    plan = request.args.get("plan", 1)
+    short_url = None
 
     if request.method == "POST":
 
         platform = request.form.get("platform")
-        platform_name = request.form.get("platform_name")
+        action_name = request.form.get("action_name")
         destination_url = request.form.get("destination_url")
+
+        ads = int(request.form.get("ads", 1))
+        cpm = float(request.form.get("cpm", 0.50))
 
         code = generate_code()
 
@@ -44,13 +47,15 @@ def generate():
 
             "code": code,
 
-            "plan": int(plan),
-
             "platform": platform,
 
-            "platform_name": platform_name,
+            "action_name": action_name,
 
             "destination_url": destination_url,
+
+            "ads": ads,
+
+            "cpm": cpm,
 
             "clicks": 0,
 
@@ -62,9 +67,9 @@ def generate():
 
         })
 
-        return redirect("/dashboard")
+        short_url = request.host_url + code
 
     return render_template(
         "generate.html",
-        plan=plan
+        short_url=short_url
     )
