@@ -120,60 +120,27 @@ Step <span id="step">1</span> of
 
 </div>
 
-<button
-id="btn1"
-class="watch-btn active-btn">
+<{% for i in range(1, ads + 1) %}
 
+<button
+id="btn{{ i }}"
+class="watch-btn {% if i == 1 %}active-btn{% else %}lock-btn{% endif %}"
+{% if i != 1 %}disabled{% endif %}>
+
+{% if i == 1 %}
 ▶ WATCH NOW
-
-</button>
-
-<button
-id="btn2"
-class="watch-btn lock-btn"
-disabled>
-
+{% else %}
 🔒 WATCH NOW
+{% endif %}
 
 </button>
 
-<button
-id="btn3"
-class="watch-btn lock-btn"
-disabled>
+{% endfor %}
 
-🔒 WATCH NOW
-
-</button>
-
-<button
-id="btn4"
-class="watch-btn lock-btn"
-disabled>
-
-🔒 WATCH NOW
-
-</button>
-
-<button
-id="btn5"
-class="watch-btn lock-btn"
-disabled>
-
-🔒 WATCH NOW
-
-</button>
-
-<button
-id="finalButton"
-class="final-btn">
-
-📨 Telegram
+📨 {{ platform|title }}
 
 <span class="small-text">
-
-Join Movie Hub
-
+{{ action_name }}
 </span>
 
 </button>
@@ -181,80 +148,6 @@ Join Movie Hub
 </div>
 
 </div>
-
-<script>
-
-let currentStep = 1;
-const totalSteps = 5;
-
-function unlockNext() {
-
-    const currentBtn = document.getElementById("btn" + currentStep);
-
-    currentBtn.innerHTML = "⏳ Verifying...";
-    currentBtn.disabled = true;
-
-    setTimeout(() => {
-
-        currentBtn.className = "watch-btn complete-btn";
-        currentBtn.innerHTML = "✅ Completed";
-
-        currentStep++;
-
-        document.getElementById("step").innerHTML = currentStep <= totalSteps ? currentStep : totalSteps;
-
-        let percent = (currentStep - 1) / totalSteps * 100;
-
-        document.getElementById("progressBar").style.width = percent + "%";
-
-        if (currentStep <= totalSteps) {
-
-            const nextBtn = document.getElementById("btn" + currentStep);
-
-            nextBtn.disabled = false;
-            nextBtn.className = "watch-btn active-btn";
-            nextBtn.innerHTML = "▶ WATCH NOW";
-
-        } else {
-
-            document.getElementById("finalButton").style.display = "block";
-
-        }
-
-    }, 10000);
-
-}
-
-for(let i=1;i<=totalSteps;i++){
-
-    const btn=document.getElementById("btn"+i);
-
-    btn.onclick=function(){
-
-        if(i===currentStep){
-
-            // Future:
-            // Open SmartLink here
-            // window.open(smartLink,"_blank");
-
-            unlockNext();
-
-        }
-
-    }
-
-}
-
-document.getElementById("finalButton").onclick=function(){
-
-    // Future:
-    // window.location = destinationURL;
-
-    alert("Destination URL Open");
-
-}
-
-</script>
 
 <script>
 const LINK_CODE = "{{ code }}";
