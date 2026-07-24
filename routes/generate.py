@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template, request, session, redirect
 from models.links import links
+from datetime import datetime
 import random
 import string
 
@@ -57,7 +58,7 @@ def generate():
 
             "earnings": 0,
 
-            "created_at": None
+            "created_at": datetime.utcnow()
 
         })
 
