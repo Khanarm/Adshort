@@ -1,8 +1,8 @@
 from flask import Blueprint, render_template, session, redirect
+from bson import ObjectId
 from mongo import db
 
 wallet_bp = Blueprint("wallet", __name__)
-
 
 @wallet_bp.route("/wallet")
 def wallet():
@@ -10,12 +10,14 @@ def wallet():
     if "user_id" not in session:
         return redirect("/login")
 
-    user = db.users.find_one({"_id": session["user_id"]})
+    user = db.users.find_one({
+        "_id": ObjectId(session["user_id"])
+    })
 
     links = list(
-        db.links.find(
-            {"user_id": session["user_id"]}
-        ).sort("created_at", -1)
+        db.links.find({
+            "user_id": session["user_id"]
+        }).sort("_id", -1)
     )
 
     total_links = len(links)
@@ -31,4 +33,4 @@ def wallet():
         total_links=total_links,
         total_clicks=total_clicks,
         links=links
-  )
+    )
