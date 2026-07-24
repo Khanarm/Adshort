@@ -256,5 +256,13 @@ document.getElementById("finalButton").onclick=function(){
 
 </script>
 
-</body>    
+<script>
+const LINK_CODE = "{{ code }}";
+const DESTINATION_URL = "{{ destination_url }}";
+const TOTAL_ADS = {{ ads }};
+</script>
+
+<script src="{{ url_for('static', filename='js/unlock.js') }}"></script>    
+
+</body>
 </html>
