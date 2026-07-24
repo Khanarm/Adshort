@@ -98,25 +98,31 @@ data-bs-dismiss="offcanvas"></button>
 
     <div class="row g-4">
 
-        <!-- Link Analytics -->
-        <div class="col-md-6">
-            <div class="card bg-dark text-white shadow">
-                <div class="card-body">
-                    <h5 class="card-title">Link Analytics</h5>
+        <!-- Wallet -->
+<div class="col-md-6">
+    <div class="card bg-dark text-white shadow">
+        <div class="card-body">
 
-                    <div class="d-flex justify-content-between mt-3">
-                        <span>Total Links</span>
-                        <strong>{{ total_links }}</strong>
-                    </div>
+            <h5 class="card-title">
+                <i class="bi bi-wallet2 me-2"></i>
+                Wallet
+            </h5>
 
-                    <div class="d-flex justify-content-between mt-2">
-                        <span>Total Clicks</span>
-                        <strong>{{ total_clicks }}</strong>
-                    </div>
+            <h2 class="fw-bold text-success mt-3">
+                ${{ current_balance }}
+            </h2>
 
-                </div>
-            </div>
+            <small class="text-secondary">
+                Current Balance
+            </small>
+
+            <a href="/wallet" class="btn btn-success w-100 mt-4">
+                Open Wallet
+            </a>
+
         </div>
+    </div>
+</div>
 
 
         <!-- Quick Actions -->
@@ -130,8 +136,8 @@ data-bs-dismiss="offcanvas"></button>
                         Generate New Link
                     </a>
 
-                    <a href="/links" class="btn btn-outline-light w-100 mt-2">
-                        View All Links
+                    <a href="/wallet" class="btn btn-outline-success w-100 mt-2">
+                        Wallet
                     </a>
 
                 </div>
