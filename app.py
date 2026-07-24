@@ -11,6 +11,7 @@ from routes.profile import profile_bp
 from routes.analytics import analytics_bp
 from routes.settings import settings_bp
 from routes.wallet import wallet_bp
+from routes.api import api_bp
 
 app = Flask(__name__)
 app.config.from_object(Config)
@@ -25,6 +26,7 @@ app.register_blueprint(profile_bp)
 app.register_blueprint(analytics_bp)
 app.register_blueprint(settings_bp)
 app.register_blueprint(wallet_bp)
+app.register_blueprint(api_bp)
 
 @app.route("/")
 def home():
