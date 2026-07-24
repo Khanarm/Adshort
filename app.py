@@ -10,6 +10,7 @@ from routes.unlock import unlock_bp
 from routes.profile import profile_bp
 from routes.analytics import analytics_bp
 from routes.settings import settings_bp
+from routes.wallet import wallet_bp
 
 app = Flask(__name__)
 app.config.from_object(Config)
@@ -23,6 +24,7 @@ app.register_blueprint(unlock_bp)
 app.register_blueprint(profile_bp)
 app.register_blueprint(analytics_bp)
 app.register_blueprint(settings_bp)
+app.register_blueprint(wallet_bp)
 
 @app.route("/")
 def home():
