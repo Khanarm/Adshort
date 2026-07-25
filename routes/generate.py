@@ -68,16 +68,17 @@ def generate():
 
         })
 
+        add_activity(
+            session["user_id"],
+            session.get("username", ""),
+            "Generated Link",
+            action_name
+        )
+
         short_url = request.host_url + code
+
 
     return render_template(
         "generate.html",
         short_url=short_url
-    )
-
-add_activity(
-    session["user_id"],
-    session.get("username", ""),
-    "Generated Link",
-    action_name
         )
