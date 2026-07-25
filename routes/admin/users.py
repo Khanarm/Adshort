@@ -106,3 +106,27 @@ def unblock_user(user_id):
     )
 
     return redirect("/admin/users")
+
+@admin_users_bp.route("/user/delete/<user_id>")
+def delete_user(user_id):
+
+    if "admin" not in session:
+        return redirect("/admin/login")
+
+    try:
+        object_id = ObjectId(user_id)
+
+        # Delete all links of this user
+        links.delete_many({
+            "user_id": object_id
+        })
+
+        # Delete user
+        users.delete_one({
+            "_id": object_id
+        })
+
+    except Exception:
+        return "Invalid User ID", 400
+
+    return redirect("/admin/users")
