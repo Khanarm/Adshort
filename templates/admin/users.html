@@ -92,10 +92,15 @@ text-decoration:none;
 
 <td>
 
-<a
-href="/admin/user/{{ user._id }}"
-class="btn-view">
+<a href="/admin/user/{{ user._id }}"
+class="btn btn-primary btn-sm">
 View
+</a>
+
+<a href="/admin/user/delete/{{ user._id }}"
+class="btn btn-danger btn-sm"
+onclick="return confirm('Delete this user and all their links?')">
+Delete
 </a>
 
 {% if user.status == "Active" %}
