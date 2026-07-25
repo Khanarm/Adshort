@@ -120,7 +120,7 @@ Step <span id="step">1</span> of
 
 </div>
 
-<{% for i in range(1, ads + 1) %}
+{% for i in range(1, ads + 1) %}
 
 <button
 id="btn{{ i }}"
@@ -137,12 +137,11 @@ class="watch-btn {% if i == 1 %}active-btn{% else %}lock-btn{% endif %}"
 
 {% endfor %}
 
-📨 {{ platform|title }}
-
-<span class="small-text">
-{{ action_name }}
-</span>
-
+<button id="finalBtn" class="final-btn">
+    📨 {{ platform|title }}
+    <span class="small-text">
+        {{ action_name }}
+    </span>
 </button>
 
 </div>
