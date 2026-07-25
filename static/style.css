@@ -198,3 +198,21 @@ body{
 }
 
    }
+
+.modal {
+    z-index: 99999 !important;
+}
+
+.modal-dialog {
+    margin: 1rem auto;
+    max-width: 500px;
+}
+
+.modal-content {
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.modal-backdrop {
+    z-index: 99998 !important;
+}
