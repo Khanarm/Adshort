@@ -3,7 +3,6 @@ from models.users import users
 from models.links import links
 from models.activity_logs import activity_logs
 
-
 admin_dashboard_bp = Blueprint(
     "admin_dashboard",
     __name__,
@@ -17,23 +16,21 @@ def dashboard():
     if "admin" not in session:
         return redirect("/admin/login")
 
-
+    # Total Users
     total_users = users.count_documents({})
 
+    # Total Links
     total_links = links.count_documents({})
 
-
+    # Clicks & Earnings
     total_clicks = 0
     total_earnings = 0
 
-
     for link in links.find():
-
         total_clicks += link.get("clicks", 0)
-
         total_earnings += link.get("earnings", 0)
 
-
+    # Pending Withdraw
     pending_withdraw = 0
 
 
@@ -45,7 +42,7 @@ def dashboard():
     )
 
 
-    # Top Links
+    # Top Performing Links
     top_links = list(
         links.find()
         .sort("clicks", -1)
@@ -55,13 +52,11 @@ def dashboard():
 
     return render_template(
         "admin/dashboard.html",
-
         total_users=total_users,
         total_links=total_links,
         total_clicks=total_clicks,
         total_earnings=round(total_earnings, 2),
         pending_withdraw=pending_withdraw,
-
         recent_activity=recent_activity,
         top_links=top_links
-        )
+    )
