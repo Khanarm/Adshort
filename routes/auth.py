@@ -1,6 +1,8 @@
 from flask import Blueprint, render_template, request, redirect, session
 from models.users import users
 import bcrypt
+import random
+import string
 
 auth_bp = Blueprint("auth", __name__)
 
