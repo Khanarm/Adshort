@@ -1,1 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
 
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Earning Settings</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<style>
+body{
+    background:#111827;
+    color:#fff;
+}
+
+.card{
+    background:#1f2937;
+    border:none;
+    border-radius:15px;
+}
+
+.form-control{
+    background:#374151;
+    border:none;
+    color:#fff;
+}
+
+.form-control:focus{
+    background:#374151;
+    color:#fff;
+    box-shadow:none;
+}
+
+.btn-save{
+    background:#2563eb;
+    color:#fff;
+}
+
+.btn-save:hover{
+    background:#1d4ed8;
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="container py-5">
+
+    <div class="card p-4 mx-auto" style="max-width:600px;">
+
+        <h3 class="mb-4">💰 Earning Settings</h3>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        {% for category, message in messages %}
+        <div class="alert alert-success">
+            {{ message }}
+        </div>
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
+
+        <form method="POST">
+
+            <div class="mb-3">
+                <label class="form-label">CPM Rate ($)</label>
+                <input
+                    type="number"
+                    step="0.01"
+                    name="cpm_rate"
+                    class="form-control"
+                    value="{{ settings.cpm_rate }}"
+                    required>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Minimum Withdraw ($)</label>
+                <input
+                    type="number"
+                    step="0.01"
+                    name="minimum_withdraw"
+                    class="form-control"
+                    value="{{ settings.minimum_withdraw }}"
+                    required>
+            </div>
+
+            <div class="mb-4">
+                <label class="form-label">Referral Commission (%)</label>
+                <input
+                    type="number"
+                    step="0.01"
+                    name="referral_commission"
+                    class="form-control"
+                    value="{{ settings.referral_commission }}"
+                    required>
+            </div>
+
+            <button class="btn btn-save w-100">
+                Save Settings
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+</body>
+</html>
