@@ -15,7 +15,7 @@ from routes.api import api_bp
 from routes.admin.login import admin_login_bp
 from routes.admin.dashboard import admin_dashboard_bp
 from routes.admin.users import admin_users_bp
-
+from routes.admin.withdraw import admin_withdraw_bp
 
 app = Flask(__name__)
 app.config.from_object(Config)
@@ -34,6 +34,7 @@ app.register_blueprint(api_bp)
 app.register_blueprint(admin_login_bp)
 app.register_blueprint(admin_dashboard_bp)
 app.register_blueprint(admin_users_bp)
+app.register_blueprint(admin_withdraw_bp)
 
 @app.route("/")
 def home():
