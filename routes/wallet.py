@@ -57,7 +57,8 @@ def withdraw():
     })
 
     method = request.form.get("method")
-    amount = float(request.form.get("amount"))
+    account = request.form.get("account")
+    amount = float(request.form.get("amount", 0))
 
     if amount <= 0:
         flash("Invalid amount")
@@ -72,4 +73,21 @@ def withdraw():
         "user_id": session["user_id"],
         "amount": amount,
         "method": method,
-       
+        "account": account,
+        "status": "Pending",
+        "created_at": datetime.utcnow()
+    }
+
+    db.withdraw_requests.insert_one(withdraw)
+
+    db.users.update_one(
+        {"_id": ObjectId(session["user_id"])},
+        {
+            "$inc": {
+                "current_balance": -amount
+            }
+        }
+    )
+
+    flash("Withdrawal request submitted successfully.")
+    return redirect("/wallet")
