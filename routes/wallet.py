@@ -1,8 +1,11 @@
-from flask import Blueprint, render_template, session, redirect
+from flask import Blueprint, render_template, session, redirect, request, flash
 from bson import ObjectId
 from mongo import db
+import uuid
+from datetime import datetime
 
 wallet_bp = Blueprint("wallet", __name__)
+
 
 @wallet_bp.route("/wallet")
 def wallet():
@@ -26,11 +29,47 @@ def wallet():
 
     current_balance = user.get("current_balance", 0)
 
+    withdrawals = list(
+        db.withdraw_requests.find({
+            "user_id": session["user_id"]
+        }).sort("_id", -1)
+    )
+
     return render_template(
         "wallet.html",
         current_balance=current_balance,
         total_earned=total_earned,
         total_links=total_links,
         total_clicks=total_clicks,
-        links=links
+        links=links,
+        withdrawals=withdrawals
     )
+
+
+@wallet_bp.route("/withdraw", methods=["POST"])
+def withdraw():
+
+    if "user_id" not in session:
+        return redirect("/login")
+
+    user = db.users.find_one({
+        "_id": ObjectId(session["user_id"])
+    })
+
+    method = request.form.get("method")
+    amount = float(request.form.get("amount"))
+
+    if amount <= 0:
+        flash("Invalid amount")
+        return redirect("/wallet")
+
+    if amount > user.get("current_balance", 0):
+        flash("Insufficient Balance")
+        return redirect("/wallet")
+
+    withdraw = {
+        "request_id": "WD-" + uuid.uuid4().hex[:8].upper(),
+        "user_id": session["user_id"],
+        "amount": amount,
+        "method": method,
+       
