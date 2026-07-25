@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, request, session, redirect
 from models.links import links
 from datetime import datetime
+from utils.activity import add_activity
 import random
 import string
 
@@ -73,3 +74,10 @@ def generate():
         "generate.html",
         short_url=short_url
     )
+
+add_activity(
+    session["user_id"],
+    session.get("username", ""),
+    "Generated Link",
+    action_name
+        )
