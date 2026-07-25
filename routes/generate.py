@@ -2,6 +2,7 @@ from flask import Blueprint, render_template, request, session, redirect
 from models.links import links
 from datetime import datetime
 from utils.activity import add_activity
+from models.settings import settings
 import random
 import string
 
@@ -38,7 +39,13 @@ def generate():
         destination_url = request.form.get("destination_url")
 
         ads = int(request.form.get("ads", 1))
-        cpm = float(request.form.get("cpm", 0.50))
+
+setting = settings.find_one({})
+
+if setting:
+    cpm = float(setting.get("cpm_rate", 3.00))
+else:
+    cpm = 3.00
 
         code = generate_code()
 
