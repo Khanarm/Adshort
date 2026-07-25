@@ -13,14 +13,17 @@ def go(track_code):
     if not link:
         return "Invalid Link"
 
-    links.update_one(
-        {"_id": link["_id"]},
-        {
-            "$inc": {
-                "clicks": 1,
-                "visitors": 1
-            }
+    earning = link["cpm"] / 1000
+
+links.update_one(
+    {"_id": link["_id"]},
+    {
+        "$inc": {
+            "clicks": 1,
+            "visitors": 1,
+            "earnings": earning
         }
-    )
+    }
+)
 
     return redirect(link["destination_url"])
