@@ -53,3 +53,26 @@ def delete_link(link_id):
     })
 
     return redirect("/admin/links")
+
+@admin_links_bp.route("/link/<link_id>")
+def link_profile(link_id):
+
+    if "admin" not in session:
+        return redirect("/admin/login")
+
+    link = links.find_one({
+        "_id": ObjectId(link_id)
+    })
+
+    if not link:
+        return "Link Not Found", 404
+
+    user = users.find_one({
+        "_id": link["user_id"]
+    })
+
+    return render_template(
+        "admin/link_profile.html",
+        link=link,
+        user=user
+        )
