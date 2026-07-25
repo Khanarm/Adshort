@@ -55,6 +55,8 @@ else:
 
             "code": code,
 
+            "track_code": generate_code(),
+
             "platform": platform,
 
             "action_name": action_name,
