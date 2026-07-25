@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, session, redirect
 from models.users import users
 from models.links import links
+from models.activity_logs import activity_logs
 
 admin_dashboard_bp = Blueprint(
     "admin_dashboard",
@@ -38,3 +39,14 @@ def dashboard():
         total_earnings=round(total_earnings, 2),
         pending_withdraw=pending_withdraw
   )
+recent_activity = list(
+    activity_logs.find()
+    .sort("created_at", -1)
+    .limit(10)
+)
+
+top_links = list(
+    links.find()
+    .sort("clicks", -1)
+    .limit(10)
+)
