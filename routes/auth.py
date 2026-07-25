@@ -5,6 +5,17 @@ import bcrypt
 auth_bp = Blueprint("auth", __name__)
 
 
+def generate_referral_code(length=8):
+
+    chars = string.ascii_uppercase + string.digits
+
+    while True:
+
+        code = "".join(random.choice(chars) for _ in range(length))
+
+        if not users.find_one({"referral_code": code}):
+            return code
+
 # ==========================
 # Login
 # ==========================
@@ -40,6 +51,8 @@ def login():
 def register():
 
     if request.method == "POST":
+
+        ref = request.args.get("ref")
 
         username = request.form.get("username")
         email = request.form.get("email")
