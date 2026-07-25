@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, session, redirect
 from models.users import users
 from models.links import links
+from bson import ObjectId
 
 admin_users_bp = Blueprint(
     "admin_users",
@@ -40,3 +41,31 @@ def users_page():
         "admin/users.html",
         users=data
       )
+
+@admin_users_bp.route("/user/<user_id>")
+def user_profile(user_id):
+
+    if "admin" not in session:
+        return redirect("/admin/login")
+
+    user = users.find_one({"_id": ObjectId(user_id)})
+
+    if not user:
+        return "User Not Found", 404
+
+    user_links = list(
+        links.find({"user_id": user["_id"]})
+    )
+
+    total_links = len(user_links)
+    total_clicks = sum(i.get("clicks", 0) for i in user_links)
+    total_earnings = sum(i.get("earnings", 0) for i in user_links)
+
+    return render_template(
+        "admin/user_profile.html",
+        user=user,
+        links=user_links,
+        total_links=total_links,
+        total_clicks=total_clicks,
+        total_earnings=round(total_earnings, 2)
+    )
