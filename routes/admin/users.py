@@ -2,6 +2,7 @@ from flask import Blueprint, render_template, session, redirect
 from models.users import users
 from models.links import links
 from bson import ObjectId
+from flask import Blueprint, render_template, session, redirect, url_for, flash
 
 admin_users_bp = Blueprint(
     "admin_users",
@@ -69,3 +70,39 @@ def user_profile(user_id):
         total_clicks=total_clicks,
         total_earnings=round(total_earnings, 2)
     )
+
+@admin_users_bp.route("/user/block/<user_id>")
+def block_user(user_id):
+
+    if "admin" not in session:
+        return redirect("/admin/login")
+
+    users.update_one(
+        {"_id": ObjectId(user_id)},
+        {
+            "$set": {
+                "status": "Blocked"
+            }
+        }
+    )
+
+    return redirect("/admin/users")
+
+
+
+@admin_users_bp.route("/user/unblock/<user_id>")
+def unblock_user(user_id):
+
+    if "admin" not in session:
+        return redirect("/admin/login")
+
+    users.update_one(
+        {"_id": ObjectId(user_id)},
+        {
+            "$set": {
+                "status": "Active"
+            }
+        }
+    )
+
+    return redirect("/admin/users")
