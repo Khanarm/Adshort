@@ -98,6 +98,22 @@ class="btn-view">
 View
 </a>
 
+{% if user.status == "Active" %}
+
+<a href="/admin/user/block/{{ user._id }}"
+class="btn btn-danger btn-sm">
+Block
+</a>
+
+{% else %}
+
+<a href="/admin/user/unblock/{{ user._id }}"
+class="btn btn-success btn-sm">
+Unblock
+</a>
+
+{% endif %}
+  
 </td>
 
 </tr>
