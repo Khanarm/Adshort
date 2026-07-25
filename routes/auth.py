@@ -3,6 +3,7 @@ from models.users import users
 import bcrypt
 import random
 import string
+import secrets
 
 auth_bp = Blueprint("auth", __name__)
 
@@ -68,16 +69,28 @@ def register():
             bcrypt.gensalt()
         ).decode()
 
+        referral_code = secrets.token_hex(4).upper()
+
+        referred_by = None
+
+        if ref:
+            ref_user = users.find_one({"referral_code": ref})
+            if ref_user:
+                referred_by = ref_user["_id"]
+
         users.insert_one({
             "username": username,
             "email": email,
-            "password": hashed_password
+            "password": hashed_password,
+            "balance": 0,
+            "referral_code": referral_code,
+            "referred_by": referred_by,
+            "referral_earnings": 0
         })
 
         return redirect("/login")
 
     return render_template("register.html")
-
 
 # ==========================
 # Logout
