@@ -40,41 +40,28 @@ def generate():
 
         ads = int(request.form.get("ads", 1))
 
-setting = settings.find_one({})
+        setting = settings.find_one({})
 
-if setting:
-    cpm = float(setting.get("cpm_rate", 3.00))
-else:
-    cpm = 3.00
+        if setting:
+            cpm = float(setting.get("cpm_rate", 3.00))
+        else:
+            cpm = 3.00
 
         code = generate_code()
 
         links.insert_one({
-
             "user_id": session["user_id"],
-
             "code": code,
-
             "track_code": generate_code(),
-
             "platform": platform,
-
             "action_name": action_name,
-
             "destination_url": destination_url,
-
             "ads": ads,
-
             "cpm": cpm,
-
             "clicks": 0,
-
             "visitors": 0,
-
             "earnings": 0,
-
             "created_at": datetime.utcnow()
-
         })
 
         add_activity(
@@ -85,7 +72,6 @@ else:
         )
 
         short_url = request.host_url + code
-
 
     return render_template(
         "generate.html",
