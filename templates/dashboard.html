@@ -124,6 +124,36 @@ data-bs-dismiss="offcanvas"></button>
     </div>
 </div>
 
+<div class="col-md-6">
+    <div class="card bg-dark text-white shadow">
+        <div class="card-body">
+
+            <h5 class="card-title">
+                <i class="bi bi-people-fill me-2"></i>
+                Referral Program
+            </h5>
+
+            <small class="text-secondary">
+                Earn 5% commission from your referrals.
+            </small>
+
+            <input
+                type="text"
+                id="refLink"
+                class="form-control mt-3"
+                value="{{ request.host_url }}register?ref={{ user.referral_code }}"
+                readonly
+            >
+
+            <button
+                class="btn btn-primary w-100 mt-3"
+                onclick="copyReferralLink()">
+                Copy Referral Link
+            </button>
+
+        </div>
+    </div>
+</div>        
 
         <!-- Quick Actions -->
         <div class="col-md-6">
@@ -205,6 +235,20 @@ data-bs-dismiss="offcanvas"></button>
 </div>
 
 </div>
+
+<script>
+function copyReferralLink() {
+
+    let copyText = document.getElementById("refLink");
+
+    copyText.select();
+    copyText.setSelectionRange(0, 99999);
+
+    navigator.clipboard.writeText(copyText.value);
+
+    alert("Referral link copied successfully!");
+}
+    </script>    
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
