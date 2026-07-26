@@ -69,7 +69,7 @@ def register():
             bcrypt.gensalt()
         ).decode()
 
-        referral_code = secrets.token_hex(4).upper()
+        referral_code = generate_referral_code()
 
         referred_by = None
 
