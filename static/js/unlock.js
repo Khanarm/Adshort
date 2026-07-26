@@ -6,7 +6,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const step = document.getElementById("step");
     const total = document.getElementById("total");
     const finalButton = document.getElementById("finalButton");
-
+    
+    finalButton.disabled = true;
+    
     total.innerText = TOTAL_ADS;
 
     function updateProgress() {
@@ -77,7 +79,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             } else {
 
-                finalButton.style.display = "block";
+                finalButton.disabled = false;
 
             }
 
