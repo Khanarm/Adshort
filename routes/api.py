@@ -2,10 +2,11 @@ from flask import Blueprint, request, jsonify, session
 from models.unlock_sessions import unlock_sessions
 from models.links import links
 from datetime import datetime
+from models.smartlinks import smartlinks
+import random
 import uuid
 
 api_bp = Blueprint("api", __name__)
-
 
 @api_bp.route("/api/watch-ad", methods=["POST"])
 def watch_ad():
@@ -59,6 +60,33 @@ def watch_ad():
         }
     )
 
+    # Random Active Smart Link
+    active_links = list(
+        smartlinks.find({"status": True})
+    )
+
+    if not active_links:
+        return jsonify({
+            "success": False,
+            "message": "No Smart Links Available"
+        })
+
+    selected = random.choice(active_links)
+
+    smartlinks.update_one(
+        {
+            "_id": selected["_id"]
+        },
+        {
+            "$inc": {
+                "clicks": 1
+            },
+            "$set": {
+                "last_used": datetime.utcnow()
+            }
+        }
+    )
+
     completed = ad_number
     total = link["ads"]
 
@@ -66,9 +94,9 @@ def watch_ad():
         "success": True,
         "completed": completed,
         "total": total,
-        "finished": completed >= total
+        "finished": completed >= total,
+        "smartlink": selected["url"]
     })
-
 
 @api_bp.route("/api/unlock", methods=["POST"])
 def unlock_link():
