@@ -1,10 +1,11 @@
 from bson import ObjectId
-from mongo import db
 from datetime import datetime
+from mongo import db
 
 
 def give_referral_commission(user_id, earning):
 
+    # Jis user ne earning ki
     user = db.users.find_one({
         "_id": ObjectId(user_id)
     })
@@ -12,26 +13,36 @@ def give_referral_commission(user_id, earning):
     if not user:
         return
 
-    referrer_id = user.get("referred_by")
-
-    if not referrer_id:
+    # Agar referral se join nahi hua
+    if not user.get("referred_by"):
         return
 
-    commission = round(float(earning) * 0.05, 2)
+    # Referrer
+    referrer = db.users.find_one({
+        "_id": ObjectId(user["referred_by"])
+    })
 
+    if not referrer:
+        return
+
+    # 5% Commission
+    commission = round(float(earning) * 0.05, 6)
+
+    # Referrer balance update
     db.users.update_one(
-        {"_id": ObjectId(referrer_id)},
+        {"_id": referrer["_id"]},
         {
             "$inc": {
-                "balance": commission,
+                "current_balance": commission,
                 "referral_earnings": commission
             }
         }
     )
 
+    # Referral History
     db.referral_commissions.insert_one({
-        "referrer_id": ObjectId(referrer_id),
-        "referred_user_id": ObjectId(user_id),
+        "referrer_id": referrer["_id"],
+        "referred_user_id": user["_id"],
         "earning": earning,
         "commission": commission,
         "percentage": 5,
