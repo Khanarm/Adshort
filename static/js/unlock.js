@@ -220,6 +220,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // User jab ad dekhkar Back karega aur page dubara load hoga,
     // tab sirf ek baar server verify karega.
-    checkAd();
+   updateProgress();
 
-});                          
+// User jab SmartLink se wapas aaye tab verify karo
+window.addEventListener("pageshow", function () {
+    checkAd();
+});
+
+document.addEventListener("visibilitychange", function () {
+    if (!document.hidden) {
+        checkAd();
+    }
+});
+
+window.addEventListener("focus", function () {
+    checkAd();
+});
+
+});
