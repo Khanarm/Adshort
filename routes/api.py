@@ -3,6 +3,7 @@ from models.unlock_sessions import unlock_sessions
 from models.links import links
 from models.smartlinks import smartlinks
 from datetime import datetime
+from models.reports import reports
 import random
 import uuid
 
@@ -332,5 +333,45 @@ def unlock_link():
         "success": True,
 
         "url": link["destination_url"]
+
+    })
+
+# ===========================
+# REPORT LINK
+# ===========================
+@api_bp.route("/api/report", methods=["POST"])
+def report_link():
+
+    data = request.json
+
+    code = data.get("code")
+    reason = data.get("reason", "")
+
+    link = links.find_one({
+        "code": code
+    })
+
+    if not link:
+        return jsonify({
+            "success": False,
+            "message": "Invalid Link"
+        })
+
+    reports.insert_one({
+
+        "code": code,
+        "destination_url": link["destination_url"],
+        "platform": link["platform"],
+        "action_name": link["action_name"],
+        "reason": reason,
+        "reported_at": datetime.utcnow(),
+        "status": "pending"
+
+    })
+
+    return jsonify({
+
+        "success": True,
+        "message": "Report submitted"
 
     })
