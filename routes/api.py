@@ -99,7 +99,7 @@ def start_ad():
 
             "total_ads": link["ads"],
 
-            "status": "watching",
+            "status": "waiting"
 
             "start_time": datetime.utcnow(),
 
@@ -163,17 +163,11 @@ def check_ad():
         })
 
     # Agar previous ad already complete hai
-    if unlock["status"] == "completed":
-
-        return jsonify({
-
-            "success": True,
-
-            "completed": unlock["completed_ads"],
-
-            "finished": unlock["completed_ads"] >= unlock["total_ads"]
-
-        })
+    if unlock["status"] != "waiting":
+    return jsonify({
+        "success": False,
+        "message": "No active ad"
+    })
 
     # Ad abhi watch ho raha hai
     start_time = unlock["start_time"]
@@ -201,10 +195,11 @@ def check_ad():
 
         {
             "$set": {
-
                 "completed_ads": completed,
-
-                "status": "completed"
+                "status": "idle",
+                "start_time": None,
+                "current_ad": None
+            }
 
             }
 
