@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template, request, redirect, session
 from models.users import users
+from datetime import timedelta
 import bcrypt
 import random
 import string
@@ -37,6 +38,8 @@ def login():
             user["password"].encode()
         ):
 
+            session.permanent = True   # 👈 Ye line add karo
+
             session["user_id"] = str(user["_id"])
             session["username"] = user["username"]
 
@@ -45,7 +48,6 @@ def login():
         return "Invalid Email or Password"
 
     return render_template("login.html")
-
 
 # ==========================
 # Register
