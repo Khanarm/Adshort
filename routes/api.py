@@ -147,7 +147,6 @@ def check_ad():
         }), 401
 
     data = request.json
-
     code = data.get("code")
 
     unlock = unlock_sessions.find_one({
@@ -155,43 +154,20 @@ def check_ad():
         "code": code
     })
 
+    # Koi session nahi hai
     if not unlock:
         return jsonify({
-            "success": False,
-            "message": "Session not found"
+            "success": True,
+            "completed": 0,
+            "finished": False
         })
 
-    if unlock["status"] != "watching":
-        return jsonify({
-            "success": False,
-            "message": "No active ad"
-        })
-
-    start_time = unlock["start_time"]
-
-    elapsed = (datetime.utcnow() - start_time).total_seconds()
-
-    # Still Watching
-    if elapsed < 15:
-
-        return jsonify({
-
-            "success": False,
-
-            "verified": False,
-
-            "remaining": int(15 - elapsed)
-
-        })
-
-    # Already Completed
-    if unlock["completed_ads"] >= unlock["current_ad"]:
+    # Agar previous ad already complete hai
+    if unlock["status"] == "completed":
 
         return jsonify({
 
             "success": True,
-
-            "verified": True,
 
             "completed": unlock["completed_ads"],
 
@@ -199,6 +175,22 @@ def check_ad():
 
         })
 
+    # Ad abhi watch ho raha hai
+    start_time = unlock["start_time"]
+
+    elapsed = (datetime.utcnow() - start_time).total_seconds()
+
+    if elapsed < 15:
+
+        return jsonify({
+
+            "success": False,
+
+            "remaining": int(15 - elapsed)
+
+        })
+
+    # 15 second complete
     completed = unlock["completed_ads"] + 1
 
     unlock_sessions.update_one(
@@ -224,14 +216,11 @@ def check_ad():
 
         "success": True,
 
-        "verified": True,
-
         "completed": completed,
 
         "finished": completed >= unlock["total_ads"]
 
     })
-
 # ===========================
 # FINAL UNLOCK
 # ===========================
