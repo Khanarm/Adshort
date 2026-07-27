@@ -3,9 +3,9 @@ from models.unlock_sessions import unlock_sessions
 from models.links import links
 from models.smartlinks import smartlinks
 from datetime import datetime
-from datetime import timedelta
 import random
 import uuid
+
 
 api_bp = Blueprint("api", __name__)
 
@@ -22,14 +22,17 @@ def start_ad():
             "message": "Login required"
         }), 401
 
+
     data = request.json
 
     code = data.get("code")
     ad_number = int(data.get("ad"))
 
+
     link = links.find_one({
         "code": code
     })
+
 
     if not link:
         return jsonify({
@@ -37,53 +40,90 @@ def start_ad():
             "message": "Invalid link"
         }), 404
 
-    # Random Active SmartLink
+
+
+    # ===========================
+    # GET ACTIVE SMARTLINK
+    # ===========================
+
     active_links = list(
         smartlinks.find({
             "status": True
         })
     )
 
+
     if not active_links:
         return jsonify({
             "success": False,
             "message": "No Smart Links Available"
-        })
+        }), 404
+
+
 
     selected = random.choice(active_links)
 
+
+
     smartlinks.update_one(
+
         {
             "_id": selected["_id"]
         },
+
         {
             "$inc": {
                 "clicks": 1
             },
+
             "$set": {
                 "last_used": datetime.utcnow()
             }
         }
+
     )
 
+
+
+    # ===========================
+    # CHECK UNLOCK SESSION
+    # ===========================
+
     unlock = unlock_sessions.find_one({
+
         "user_id": session["user_id"],
+
         "code": code
+
     })
 
-    # Existing session hai to sequence check karo
+
+
+    # Sequence check
+
     if unlock:
 
         expected_ad = unlock["completed_ads"] + 1
 
+
         if ad_number != expected_ad:
+
             return jsonify({
+
                 "success": False,
+
                 "message": "Please complete previous ads first"
+
             })
 
-    # First Time
+
+
+    # ===========================
+    # CREATE NEW SESSION
+    # ===========================
+
     if not unlock:
+
 
         unlock_sessions.insert_one({
 
@@ -99,7 +139,7 @@ def start_ad():
 
             "total_ads": link["ads"],
 
-            "status": "waiting"
+            "status": "waiting",
 
             "start_time": datetime.utcnow(),
 
@@ -107,25 +147,38 @@ def start_ad():
 
         })
 
-    # Existing Session
+
+
+    # ===========================
+    # UPDATE EXISTING SESSION
+    # ===========================
+
     else:
+
 
         unlock_sessions.update_one(
 
             {
                 "user_id": session["user_id"],
+
                 "code": code
             },
 
             {
                 "$set": {
+
                     "current_ad": ad_number,
-                    "status": "watching",
+
+                    "status": "waiting",
+
                     "start_time": datetime.utcnow()
+
                 }
             }
 
         )
+
+
 
     return jsonify({
 
@@ -134,6 +187,9 @@ def start_ad():
         "smartlink": selected["url"]
 
     })
+
+
+
 # ===========================
 # CHECK AD
 # ===========================
@@ -146,33 +202,63 @@ def check_ad():
             "message": "Login required"
         }), 401
 
+
+
     data = request.json
+
     code = data.get("code")
 
+
+
     unlock = unlock_sessions.find_one({
+
         "user_id": session["user_id"],
+
         "code": code
+
     })
 
-    # Koi session nahi hai
+
+
     if not unlock:
+
         return jsonify({
+
             "success": True,
+
             "completed": 0,
+
             "finished": False
+
         })
 
-    # Agar previous ad already complete hai
-    if unlock["status"] != "waiting":
-    return jsonify({
-        "success": False,
-        "message": "No active ad"
-    })
 
-    # Ad abhi watch ho raha hai
+
+    # Active ad check
+
+    if unlock["status"] != "waiting":
+
+        return jsonify({
+
+            "success": False,
+
+            "message": "No active ad"
+
+        })
+
+
+
     start_time = unlock["start_time"]
 
-    elapsed = (datetime.utcnow() - start_time).total_seconds()
+
+
+    elapsed = (
+        datetime.utcnow() - start_time
+    ).total_seconds()
+
+
+
+    # 15 second timer
 
     if elapsed < 15:
 
@@ -184,8 +270,13 @@ def check_ad():
 
         })
 
-    # 15 second complete
+
+
+    # Ad completed
+
     completed = unlock["completed_ads"] + 1
+
+
 
     unlock_sessions.update_one(
 
@@ -195,17 +286,21 @@ def check_ad():
 
         {
             "$set": {
+
                 "completed_ads": completed,
+
                 "status": "idle",
+
                 "start_time": None,
+
                 "current_ad": None
-            }
 
             }
-
         }
 
     )
+
+
 
     return jsonify({
 
@@ -216,55 +311,104 @@ def check_ad():
         "finished": completed >= unlock["total_ads"]
 
     })
+
+
+
+
+
 # ===========================
 # FINAL UNLOCK
 # ===========================
 @api_bp.route("/api/unlock", methods=["POST"])
 def unlock_link():
 
+
     if "user_id" not in session:
+
         return jsonify({
+
             "success": False,
+
             "message": "Login required"
+
         }), 401
+
+
 
     data = request.json
 
     code = data.get("code")
 
+
+
     link = links.find_one({
+
         "code": code
+
     })
+
+
 
     if not link:
+
         return jsonify({
+
             "success": False,
+
             "message": "Invalid link"
+
         })
+
+
 
     unlock = unlock_sessions.find_one({
+
         "user_id": session["user_id"],
+
         "code": code
+
     })
+
+
 
     if not unlock:
+
         return jsonify({
+
             "success": False,
+
             "message": "Unlock session not found"
+
         })
+
+
 
     if unlock["completed_ads"] < unlock["total_ads"]:
+
         return jsonify({
+
             "success": False,
+
             "message": "Complete all ads first"
+
         })
 
-    # Session Delete
+
+
+    # Delete unlock session
+
     unlock_sessions.delete_one({
+
         "_id": unlock["_id"]
+
     })
 
+
+
     return jsonify({
+
         "success": True,
+
         "url": link["destination_url"]
+
     })
