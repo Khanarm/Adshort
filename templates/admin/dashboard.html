@@ -96,7 +96,7 @@ color:white !important;
 <a href="/admin/links">🔗 Links</a>
 <a href="/admin/plans">📦 Plans</a>
 <a href="/admin/withdraw">💰 Withdraw</a>
-<a href="/admin/smartlinks">🔗 Smart Links</a>  
+<a href="/admin/smartlinks">🔗 Smart Links</a> <a href="/admin/reports">🚩 Reports</a>
 <a href="/admin/settings">⚙️ Settings</a>
 <a href="/admin/logout">🚪 Logout</a>
 
@@ -152,6 +152,13 @@ color:white !important;
 </div>
 </div>
 
+<div class="col-md-6">
+<div class="card-box">
+<div class="card-title">🚩 Pending Reports</div>
+<div class="card-value">{{ pending_reports }}</div>
+</div>
+</div>  
+
 
 </div>
 
@@ -184,7 +191,7 @@ color:white !important;
 
 <td>{{ link.clicks }}</td>
 
-<td>₹{{ link.earnings }}</td>
+<td>${{ link.earnings }}</td>
 
 </tr>
 
