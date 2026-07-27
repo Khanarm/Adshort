@@ -1,1 +1,3 @@
-reports = db["reports"]
+from mongo import db
+
+reports = db.reports
