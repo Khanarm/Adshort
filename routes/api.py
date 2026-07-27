@@ -332,7 +332,7 @@ def unlock_link():
 
         "success": True,
 
-        "url": link["destination_url"]
+        "url": f"/go/{link['track_code']}"
 
     })
 
