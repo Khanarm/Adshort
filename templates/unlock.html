@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -55,6 +56,7 @@ body{
     margin-bottom:15px;
     font-size:18px;
     font-weight:bold;
+    transition:.3s;
 }
 
 .active-btn{
@@ -104,8 +106,32 @@ body{
     background:#475569;
     cursor:not-allowed;
     opacity:.7;
+}
+
+/* Processing Animation */
+
+.processing-btn{
+
+    animation:ring 1s linear infinite;
+
+}
+
+@keyframes ring{
+
+    0%{
+        transform:scale(1);
     }
-    
+
+    50%{
+        transform:scale(1.03);
+    }
+
+    100%{
+        transform:scale(1);
+    }
+
+}
+
 </style>
 
 </head>
@@ -116,15 +142,15 @@ body{
 
 <div class="d-flex justify-content-between align-items-center mb-4">
 
-    <a href="/register" class="btn btn-primary btn-sm">
-        Signup
-    </a>
+<a href="/register" class="btn btn-primary btn-sm">
+Signup
+</a>
 
-    <div class="logo m-0">
-        🔓 Unlock 2 Earn
-    </div>
+<div class="logo m-0">
+🔓 Unlock 2 Earn
+</div>
 
-    <div style="width:70px;"></div>
+<div style="width:70px;"></div>
 
 </div>
 
@@ -132,25 +158,31 @@ body{
 
 <div class="progress">
 
-<div id="progressBar"
+<div
+id="progressBar"
 class="progress-bar bg-primary"
-style="width:20%">
+style="width:0%">
 </div>
 
 </div>
 
 <div class="step-text">
 
-Step <span id="step">1</span> of
-<span id="total">5</span>
+Step
+<span id="step">1</span>
+of
+<span id="total">{{ ads }}</span>
 
 </div>
 
 {% for i in range(1, ads + 1) %}
 
 <button
+
 id="btn{{ i }}"
+
 class="watch-btn {% if i == 1 %}active-btn{% else %}lock-btn{% endif %}"
+
 {% if i != 1 %}disabled{% endif %}>
 
 {% if i == 1 %}
@@ -184,8 +216,6 @@ Complete all ads to continue.
 
 </div>
 
-</div>
-
 <div class="card-box mt-4">
 
 <h5 class="mb-3">🌳 Tree Links</h5>
@@ -210,15 +240,17 @@ Report Link
 
 </div>
 
-    </div>    
+</div>
 
 <script>
+
 const LINK_CODE = "{{ code }}";
-const DESTINATION_URL = "{{ destination_url }}";
 const TOTAL_ADS = {{ ads }};
+const DESTINATION_URL = "{{ destination_url }}";
+
 </script>
 
-<script src="{{ url_for('static', filename='js/unlock.js') }}"></script>    
+<script src="{{ url_for('static', filename='js/unlock.js') }}"></script>
 
 </body>
-</html>
+</html>    
