@@ -148,7 +148,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             btn.innerHTML = "⏳ Watch Ad 15 Seconds Minimum";
 
-            window.location.href = data.smartlink;
+            window.open(data.smartlink, "_blank");
 
         };
 
