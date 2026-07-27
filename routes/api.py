@@ -71,6 +71,17 @@ def start_ad():
         "code": code
     })
 
+    # Existing session hai to sequence check karo
+    if unlock:
+
+        expected_ad = unlock["completed_ads"] + 1
+
+        if ad_number != expected_ad:
+            return jsonify({
+                "success": False,
+                "message": "Please complete previous ads first"
+            })
+
     # First Time
     if not unlock:
 
@@ -123,7 +134,6 @@ def start_ad():
         "smartlink": selected["url"]
 
     })
-
 # ===========================
 # CHECK AD
 # ===========================
