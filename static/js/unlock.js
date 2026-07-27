@@ -13,9 +13,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function updateProgress() {
 
-        progressBar.style.width = ((currentAd - 1) / TOTAL_ADS) * 100 + "%";
+        progressBar.style.width =
+            ((currentAd - 1) / TOTAL_ADS) * 100 + "%";
 
-        step.innerText = currentAd <= TOTAL_ADS ? currentAd : TOTAL_ADS;
+        step.innerText =
+            currentAd <= TOTAL_ADS
+            ? currentAd
+            : TOTAL_ADS;
 
     }
 
@@ -24,8 +28,6 @@ document.addEventListener("DOMContentLoaded", () => {
         if (checking) return;
 
         checking = true;
-
-        const btn = document.getElementById("btn" + currentAd);
 
         const res = await fetch("/api/check-ad", {
 
@@ -47,18 +49,24 @@ document.addEventListener("DOMContentLoaded", () => {
 
         checking = false;
 
+        // 15 second complete nahi hue
         if (!data.success) {
 
             if (data.remaining !== undefined) {
 
-                btn.innerHTML =
-                    "⏳ Watch Ad 15 Seconds Minimum (" +
-                    data.remaining +
-                    "s)";
+                const btn =
+                    document.getElementById(
+                        "btn" + currentAd
+                    );
 
-                btn.disabled = true;
+                if (btn) {
 
-                setTimeout(checkAd, 1000);
+                    btn.innerHTML =
+                        "⏳ Watch Ad 15 Seconds Minimum";
+
+                    btn.disabled = false;
+
+                }
 
             }
 
@@ -66,32 +74,51 @@ document.addEventListener("DOMContentLoaded", () => {
 
         }
 
-        btn.innerHTML = "✅ Completed";
+        // Restore completed buttons
 
-        btn.disabled = true;
-
-        btn.classList.remove("active-btn");
-
-        btn.classList.add("complete-btn");
-
-        currentAd++;
+        currentAd = data.completed + 1;
 
         updateProgress();
 
-        if (currentAd <= TOTAL_ADS) {
+        for (let i = 1; i <= data.completed; i++) {
 
-            const next = document.getElementById("btn" + currentAd);
+            const btn =
+                document.getElementById(
+                    "btn" + i
+                );
 
-            next.disabled = false;
+            if (!btn) continue;
 
-            next.classList.remove("lock-btn");
+            btn.disabled = true;
 
-            next.classList.add("active-btn");
+            btn.classList.remove("active-btn");
 
-            next.innerHTML = "▶ WATCH NOW";
+            btn.classList.add("complete-btn");
+
+            btn.innerHTML = "✅ Completed";
 
         }
 
+        if (currentAd <= TOTAL_ADS) {
+
+            const next =
+                document.getElementById(
+                    "btn" + currentAd
+                );
+
+            if (next) {
+
+                next.disabled = false;
+
+                next.classList.remove("lock-btn");
+
+                next.classList.add("active-btn");
+
+                next.innerHTML = "▶ WATCH NOW";
+
+            }
+
+        }
         else {
 
             finalButton.disabled = false;
@@ -146,19 +173,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
             btn.disabled = true;
 
-            btn.innerHTML = "⏳ Watch Ad 15 Seconds Minimum";
+            btn.innerHTML = "⏳ Opening Ad...";
 
-            window.open(data.smartlink, "_blank");
+            // Same tab me SmartLink open karo
+            window.location.href = data.smartlink;
 
         };
 
     }
-
-    window.addEventListener("focus", function () {
-
-        checkAd();
-
-    });
 
     finalButton.onclick = async function () {
 
@@ -196,4 +218,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     updateProgress();
 
-});
+    // User jab ad dekhkar Back karega aur page dubara load hoga,
+    // tab sirf ek baar server verify karega.
+    checkAd();
+
+});                          
