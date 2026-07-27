@@ -2,6 +2,7 @@ from flask import Blueprint, render_template, session, redirect
 from models.users import users
 from models.links import links
 from models.activity_logs import activity_logs
+from models.reports import reports
 
 admin_dashboard_bp = Blueprint(
     "admin_dashboard",
@@ -33,6 +34,10 @@ def dashboard():
     # Pending Withdraw
     pending_withdraw = 0
 
+    # Pending Reports
+    pending_reports = reports.count_documents({
+        "status": "pending"
+    })
 
     # Recent Activity
     recent_activity = list(
@@ -41,14 +46,12 @@ def dashboard():
         .limit(10)
     )
 
-
     # Top Performing Links
     top_links = list(
         links.find()
         .sort("clicks", -1)
         .limit(10)
     )
-
 
     return render_template(
         "admin/dashboard.html",
@@ -57,6 +60,7 @@ def dashboard():
         total_clicks=total_clicks,
         total_earnings=round(total_earnings, 2),
         pending_withdraw=pending_withdraw,
+        pending_reports=pending_reports,
         recent_activity=recent_activity,
         top_links=top_links
     )
