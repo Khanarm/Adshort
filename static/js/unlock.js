@@ -236,3 +236,33 @@ window.addEventListener("focus", function () {
 });
 
 });
+
+document.getElementById("reportButton").onclick = async () => {
+
+    let reason = prompt("Reason for reporting this link?");
+
+    if (reason === null) return;
+
+    const res = await fetch("/api/report", {
+
+        method: "POST",
+
+        headers: {
+            "Content-Type": "application/json"
+        },
+
+        body: JSON.stringify({
+
+            code: LINK_CODE,
+
+            reason: reason
+
+        })
+
+    });
+
+    const data = await res.json();
+
+    alert(data.message);
+
+};
