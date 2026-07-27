@@ -26,8 +26,7 @@ def wallet():
     total_links = len(links)
     total_clicks = sum(link.get("clicks", 0) for link in links)
     total_earned = round(sum(link.get("earnings", 0) for link in links), 2)
-
-    current_balance = user.get("current_balance", 0)
+    current_balance = round(user.get("current_balance", 0), 2)
 
     withdrawals = list(
         db.withdraw_requests.find({
