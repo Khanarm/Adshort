@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, send_from_directory
 from config import Config
 
 # Blueprints
@@ -59,3 +59,7 @@ def home():
 
 if __name__ == "__main__":
     app.run(debug=True)
+
+@app.route("/favicon.ico")
+def favicon():
+    return "", 204
