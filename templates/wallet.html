@@ -131,108 +131,26 @@ ${{ total_earned }}
 
 </div>
 
-
 <div class="card bg-dark text-white shadow mt-4">
 
-<div class="card-body">
+    <div class="card-body">
 
-<h5 class="mb-4">
-📋 All Links
-</h5>
+        <h5 class="mb-3">
+            📂 Quick Access
+        </h5>
 
-{% for link in links %}
+        <a href="/links" class="btn btn-primary w-100 mb-3">
+            <i class="bi bi-link-45deg"></i>
+            All Links
+        </a>
 
-<div class="border rounded p-3 mb-3">
+        <a href="/withdraw-history" class="btn btn-warning w-100">
+            <i class="bi bi-clock-history"></i>
+            Withdrawal History
+        </a>
 
-<div class="fw-bold">
-{{ request.host }}/{{ link.code }}
-</div>
+    </div>
 
-<div class="mt-3 d-flex justify-content-between">
-
-<span>
-<i class="bi bi-mouse"></i>
-{{ link.clicks }} Clicks
-</span>
-
-<span class="text-success">
-${{ link.earnings }}
-</span>
-
-</div>
-
-<div class="mt-3">
-
-<button
-class="btn btn-primary w-100"
-onclick="copyLink('{{ request.host_url }}{{ link.code }}')">
-
-<i class="bi bi-clipboard"></i>
-Copy Link
-
-</button>
-
-</div>
-
-</div>
-
-{% endfor %}
-
-</div>
-
-</div>
-
-</div>
-
-<div class="card bg-dark text-white shadow mt-4">
-
-<div class="card-body">
-
-<h5 class="mb-3">
-💸 Withdrawal History
-</h5>
-
-{% if withdrawals %}
-
-{% for w in withdrawals %}
-
-<div class="border rounded p-3 mb-3">
-
-<div class="d-flex justify-content-between">
-
-<strong>{{ w.request_id }}</strong>
-
-{% if w.status=="Pending" %}
-<span class="badge bg-warning text-dark">Pending</span>
-{% elif w.status=="Success" %}
-<span class="badge bg-success">Success</span>
-{% else %}
-<span class="badge bg-danger">Rejected</span>
-{% endif %}
-
-</div>
-
-<div class="mt-2">
-Amount : ${{ w.amount }}
-</div>
-
-<div>
-Method : {{ w.method|upper }}
-</div>
-
-</div>
-
-{% endfor %}
-
-{% else %}
-
-<p class="text-secondary text-center mb-0">
-No withdrawal requests found.
-</p>
-
-{% endif %}
-
-</div>
 </div>    
     
 <!-- Withdraw Modal -->
@@ -386,13 +304,6 @@ function changeMethod(){
 }
             </script>
     
-<script>
-function copyLink(link) {
-    navigator.clipboard.writeText(link).then(function () {
-        alert("Link Copied Successfully!");
-    });
-}
-</script>
 
 <script>
 
