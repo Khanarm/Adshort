@@ -14,6 +14,12 @@ def unlock(code):
     if not link:
         return render_template("404.html"), 404
 
+    # ==========================
+    # Link Disabled Check
+    # ==========================
+    if link.get("status") == "disabled":
+        return render_template("link_disabled.html"), 403
+
     # Guest visitor id
     visitor_id = session.get("visitor_id")
 
