@@ -133,13 +133,23 @@ Rejected
 
 <td>
 
+<a
+href="/admin/user/{{ req.user_id }}"
+class="btn btn-primary btn-sm mb-1">
+
+👤 Profile
+
+</a>
+
+<br>
+
 {% if req.status=="Pending" %}
 
 <a
 href="/admin/withdraw/approve/{{ req._id }}"
-class="btn btn-success btn-sm">
+class="btn btn-success btn-sm mb-1">
 
-Approve
+✔ Approve
 
 </a>
 
@@ -147,13 +157,15 @@ Approve
 href="/admin/withdraw/reject/{{ req._id }}"
 class="btn btn-danger btn-sm">
 
-Reject
+✖ Reject
 
 </a>
 
 {% else %}
 
--
+<span class="text-secondary">
+Completed
+</span>
 
 {% endif %}
 
