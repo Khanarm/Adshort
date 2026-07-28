@@ -153,3 +153,124 @@ Generate Link
 {% endif %}
 
   </div>
+
+  <!-- Delete Confirmation Modal -->
+
+<div class="modal fade" id="deleteModal" tabindex="-1">
+
+<div class="modal-dialog modal-dialog-centered">
+
+<div class="modal-content bg-dark text-white">
+
+<div class="modal-header">
+
+<h5 class="modal-title">
+
+Delete Link
+
+</h5>
+
+<button
+type="button"
+class="btn-close btn-close-white"
+data-bs-dismiss="modal">
+</button>
+
+</div>
+
+<div class="modal-body">
+
+Are you sure you want to delete this link?
+
+</div>
+
+<div class="modal-footer">
+
+<button
+class="btn btn-secondary"
+data-bs-dismiss="modal">
+
+Cancel
+
+</button>
+
+<button
+class="btn btn-danger"
+onclick="deleteLink()">
+
+Delete
+
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+let deleteId = "";
+
+function showDelete(id){
+
+    deleteId = id;
+
+    let modal = new bootstrap.Modal(
+        document.getElementById("deleteModal")
+    );
+
+    modal.show();
+
+}
+
+function copyLink(button, link){
+
+    navigator.clipboard.writeText(link);
+
+    button.innerHTML =
+    '<i class="bi bi-check-lg"></i> Copied';
+
+    button.disabled = true;
+
+    setTimeout(function(){
+
+        button.innerHTML =
+        '<i class="bi bi-clipboard"></i> Copy';
+
+        button.disabled = false;
+
+    },2000);
+
+}
+
+function deleteLink(){
+
+    fetch("/delete-link/" + deleteId,{
+
+        method:"POST"
+
+    })
+
+    .then(res=>res.json())
+
+    .then(data=>{
+
+        if(data.success){
+
+            location.reload();
+
+        }
+
+    });
+
+}
+
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+  </html>  
