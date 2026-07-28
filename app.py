@@ -21,6 +21,9 @@ from routes.admin.settings import admin_settings_bp
 from routes.go import go_bp
 from routes.admin.smartlinks import admin_smartlinks_bp
 from routes.admin.reports import admin_reports_bp
+from routes.links import links_bp
+from routes.history import history_bp
+from routes.report import report_bp
 
 app = Flask(__name__)
 app.config.from_object(Config)
@@ -45,6 +48,9 @@ app.register_blueprint(admin_settings_bp)
 app.register_blueprint(go_bp)
 app.register_blueprint(admin_smartlinks_bp)
 app.register_blueprint(admin_reports_bp)
+app.register_blueprint(links_bp)
+app.register_blueprint(history_bp)
+app.register_blueprint(report_bp)
 
 @app.route("/")
 def home():
