@@ -109,7 +109,7 @@ data-bs-dismiss="offcanvas"></button>
             </h5>
 
             <h2 class="fw-bold text-success mt-3">
-                ${{ current_balance }}
+                ${{ "%.2f"|format(user.get("balance", 0)) }}
             </h2>
 
             <small class="text-secondary">
@@ -123,6 +123,24 @@ data-bs-dismiss="offcanvas"></button>
         </div>
     </div>
 </div>
+
+<!-- Quick Actions -->
+        <div class="col-md-6">
+            <div class="card bg-dark text-white shadow">
+                <div class="card-body">
+
+                    <h5 class="card-title">Quick Actions</h5>
+
+                    <a href="/generate" class="btn btn-primary w-100 mt-3">
+                        Generate New Link
+                    </a>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+    
 
 <div class="col-md-6">
     <div class="card bg-dark text-white shadow">
@@ -154,24 +172,6 @@ data-bs-dismiss="offcanvas"></button>
         </div>
     </div>
 </div>        
-
-        <!-- Quick Actions -->
-        <div class="col-md-6">
-            <div class="card bg-dark text-white shadow">
-                <div class="card-body">
-
-                    <h5 class="card-title">Quick Actions</h5>
-
-                    <a href="/generate" class="btn btn-primary w-100 mt-3">
-                        Generate New Link
-                    </a>
-
-                </div>
-            </div>
-        </div>
-
-    </div>
-
 
     <!-- Recent Links -->
 
