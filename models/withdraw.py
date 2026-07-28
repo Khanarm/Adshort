@@ -1,3 +1,5 @@
 from mongo import db
+from datetime import datetime
 
-withdraws = db["withdraws"]
+
+withdrawals = db.withdrawals
