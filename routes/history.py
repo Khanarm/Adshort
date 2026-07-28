@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, session, redirect
-from models.withdrawals import withdrawals
+from models.withdrawal import withdrawals
 
 history_bp = Blueprint("history", __name__)
 
