@@ -56,8 +56,15 @@ def withdraw():
     })
 
     method = request.form.get("method")
-    account = request.form.get("account")
     amount = float(request.form.get("amount", 0))
+
+    upi_id = request.form.get("upi_id")
+
+    holder_name = request.form.get("holder_name")
+    bank_name = request.form.get("bank_name")
+    account_number = request.form.get("account_number")
+    confirm_account = request.form.get("confirm_account")
+    ifsc = request.form.get("ifsc")
 
     if amount <= 0:
         flash("Invalid amount")
@@ -67,20 +74,46 @@ def withdraw():
         flash("Insufficient Balance")
         return redirect("/wallet")
 
+    if method == "bank":
+
+        if account_number != confirm_account:
+            flash("Account Number and Confirm Account Number do not match.")
+            return redirect("/wallet")
+
     withdraw = {
+
         "request_id": "WD-" + uuid.uuid4().hex[:8].upper(),
+
         "user_id": session["user_id"],
+
         "amount": amount,
+
         "method": method,
-        "account": account,
+
+        "upi_id": upi_id,
+
+        "holder_name": holder_name,
+
+        "bank_name": bank_name,
+
+        "account_number": account_number,
+
+        "ifsc": ifsc,
+
         "status": "Pending",
-        "created_at": datetime.utcnow()
+
+        "created_at": datetime.utcnow(),
+
+        "completed_at": None
+
     }
 
     db.withdraw_requests.insert_one(withdraw)
 
     db.users.update_one(
-        {"_id": ObjectId(session["user_id"])},
+        {
+            "_id": ObjectId(session["user_id"])
+        },
         {
             "$inc": {
                 "current_balance": -amount
@@ -89,4 +122,5 @@ def withdraw():
     )
 
     flash("Withdrawal request submitted successfully.")
+
     return redirect("/wallet")
