@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, session, redirect
-from models.withdrawal import withdrawals
+from mongo import db
 
 history_bp = Blueprint("history", __name__)
 
@@ -11,7 +11,7 @@ def withdraw_history():
         return redirect("/login")
 
     history = list(
-        withdrawals.find(
+        db.withdraw_requests.find(
             {"user_id": session["user_id"]}
         ).sort("created_at", -1)
     )
