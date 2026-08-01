@@ -24,6 +24,9 @@ from routes.admin.reports import admin_reports_bp
 from routes.links import links_bp
 from routes.history import history_bp
 from routes.report import report_bp
+from routes.faq import faq_bp
+from routes.privacy import privacy_bp
+from routes.terms import terms_bp
 
 app = Flask(__name__)
 app.config.from_object(Config)
