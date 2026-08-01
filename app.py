@@ -54,6 +54,9 @@ app.register_blueprint(admin_reports_bp)
 app.register_blueprint(links_bp)
 app.register_blueprint(history_bp)
 app.register_blueprint(report_bp)
+app.register_blueprint(faq_bp)
+app.register_blueprint(privacy_bp)
+app.register_blueprint(terms_bp)
 
 @app.route("/")
 def home():
