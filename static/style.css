@@ -216,3 +216,48 @@ body{
 .modal-backdrop {
     z-index: 99998 !important;
 }
+
+/* ===============================
+   Compact Mobile Dashboard
+================================= */
+
+@media(max-width:768px){
+
+    /* Navbar ki height kam */
+
+    .navbar{
+        padding:10px 14px !important;
+    }
+
+    /* Navbar title thoda chhota */
+
+    .navbar h4{
+        font-size:22px !important;
+    }
+
+    /* Menu aur notification buttons compact */
+
+    .navbar .btn{
+        padding:8px 10px !important;
+    }
+
+    /* Cards ki andar wali height kam */
+
+    .card-body{
+        padding:20px !important;
+    }
+
+    /* Card heading compact */
+
+    .card-title{
+        font-size:22px !important;
+        margin-bottom:18px !important;
+    }
+
+    /* Buttons ki height thodi kam */
+
+    .card .btn{
+        padding:11px !important;
+    }
+
+}
